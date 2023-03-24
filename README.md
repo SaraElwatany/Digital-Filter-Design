@@ -1,2 +1,2 @@
-# Digital-Filter-Design
-Digital Filter Design and signal visualization using js
+# DSP_Task_5
+Digital filter design

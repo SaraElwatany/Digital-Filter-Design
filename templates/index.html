@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head> 
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Filter Design</title>
+    <link rel="stylesheet" href="../static/styles/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js "></script> 
+    <script src="../static/js/p5.min.js"></script>
+    <script src="../static/js/papaparse.min.js"></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.2.0/math.js'></script>
+	<script src="https://cdn.jsdelivr.net/npm/json2csv"></script>
+
+</head>
+
+
+
+
+
+<body>
+	<div class="parent" id="filter">
+
+
+		<div class="element div1"> 
+
+			
+            <input type="file" accept=".csv" id="csv2" onclick="importfilter()" class="btn btn-4 btn-sep icon-import" style="display: none;">
+			<label class="btn btn-4 btn-sep icon-import" for="csv2" style="top: 30px;">Import Filter</label>
+			<!-- <button  class="btn btn-4 btn-sep icon-export" id="import-filter" >Import Filter</button> -->
+
+
+		</div>
+    
+    
+		<div class="element div2" > 
+			<div class="toggle-div" id="design-unit-circle" style="margin-right: 10px;">
+			<div id='circle-control' class="button-element" onclick="toggleas(this)">
+				<button id= "zero" class="btn-cricle-control mode-control">Add Zeros</button>
+			</div>
+			<div class="button-element dark-button" onclick="toggleas(this)">
+			<button id="pole" class="btn-cricle-control mode-control" >Add Poles</button>
+			</div>
+	
+			</div>
+			<div  class="button-remove" onclick="remove(this)" style="margin-left: 10px;">
+				<button id="remove" ><i class="fa-solid fa-trash"></i></button>
+			</div>
+	
+		</div>
+
+	<div class="element div3" id="circle-canvas"> 
+	</div>
+
+	
+	<div class="element div4"> 
+		<button  class="btn btn-4 btn-sep icon-export" id="btnDownloadCsv">Export Filter</button>
+
+	</div>
+
+
+	<div class="element div6 lightel">
+		<h2>Phase Response</h2>
+		<div id="filter-phase-response" class="response-plotting"> </div>
+	</div>
+
+	<div class="element div7 darkel">
+		<h2>Magnitude Response</h2>
+
+		<div id="filter-mag-response" class="response-plotting"> </div>
+	</div>
+
+	<div class="element div8">
+		<div class="toggle-div">
+		<div  class="button-element">
+		 <button id="generate">Generate Signal</button> 
+		</div>
+		<div class="button-element dark-button">
+		<input type="file" onclick="read_csv()" accept=".csv" id="csv" class="form-control" style="display:none;"> 
+		<label  id="upload" for="csv">Upload Signal</label>
+		</div>
+		</div>
+	</div>
+	<div class="element div9">
+		<canvas id="realtimecanvas" ></canvas>
+
+
+	</div>
+	<div class="element div10 lightel"  id="chart1" > 
+		<!-- <div id="chart1" style=" width:200; height:80;" ></div> -->
+	</div>
+	<div class="element div11 darkel" id="chart2"> 
+		<!-- <div id="chart2" style="width:200;  height:80; "></div> -->
+	</div>
+
+
+	<div class="element div5"> 
+				<button class="btn btn-4 btn-sep icon-check"  onclick="myFunction()" > Correct Phase</button>
+	</div>
+
+</div>
+
+
+	<div class="parent2" id="Allpass">
+	<div class="div12"> 
+		
+		<div id="list1" class="dropdown-check-list" tabindex="100">
+			<ul id="listOfA" class="items">
+				<!-- <li><input class="target1" type="checkbox" data-avalue="1" />1</li>
+				<li><input class="target1" type="checkbox" data-avalue="0.1" />0.1 </li>
+				<li><input class="target1" type="checkbox" data-avalue="0.5" />0.5</li>
+				<li><input class="target1" type="checkbox" data-avalue="-0.9" />-0.9</li>
+				<li><input class="target1" type="checkbox" data-avalue="-0.45" />-0.45</li>
+				<li><input class="target1" type="checkbox" data-avalue="0.78" />0.78</li>
+				<li><input class="target1" type="checkbox" data-avalue="0.99" />0.99</li>
+				<li><input class="target1" type="checkbox" data-avalue="0.358" />0.358</li>
+				<li><input class="target1" type="checkbox" data-avalue="0.836" />0.836</li> -->
+			</ul>
+		</div>
+
+
+
+	</div>
+	<div class="div13">
+		
+		<div id="image-slider">
+			<ul>
+				<li>          
+				<img class="image" src="static/img/1.jpeg" alt="1" title="a=1">
+				</li>
+				<li>           
+				 <img class="image" src="static/img/0.1.jpeg" alt="0.1" title="a=0.1">
+				</li>
+				<li>           
+					<img class="image" src="static/img/0.5.jpeg" alt="0.5" title="a=0.5">
+				</li>
+				   <li>           
+					<img class="image" src="static/img/-0.45.jpeg" alt="-0.45" title="a=-0.45">
+				</li>
+				<li>           
+					<img class="image" src="static/img/0.358.jpeg" alt="0.358" title="a=0.358">
+				</li>
+				<li>           
+					<img class="image" src="static/img/0.99.jpeg" alt="0.99" title="a=0.99">
+				</li>
+				<li>           
+					<img class="image" src="static/img/0.836.jpeg" alt="0.836" title="a=0.836">
+				</li>
+				<li>           
+					<img class="image" src="static/img/0.78.jpeg" alt="0.78" title="a=0.78">
+				</li>
+				<li>           
+					<img class="image" src="static/img/-0.9.jpeg" alt="-0.9" title="a=-0.9">
+				</li>
+			</ul>
+	
+		</div>	
+
+		 </div>
+	<div class="div14"> 
+		<h2 class="title">ALL Pass Filters</h2>
+
+	</div>
+	<div class="div15">
+		<button class="btn btn-4 btn-sep icon-back"  onclick="GoBack()" >Back</button>
+
+	
+		 </div>
+	<div class="div16">
+
+		<h2 class="title">Final Phase</h2>
+
+		<div id="final-filter-phase-response" class="response-plotting"> </div>	</div>
+
+	<div class="div17"> 
+		<h2  class="title">All Pass Filter</h2>
+		<div id="all-pass-phase-response" class="response-plotting"> </div>
+
+	</div>
+	<div class="div18"> 
+		<button id="new-all-pass-coef" class="button-remove"><i class="fa-solid fa-plus"></i></button>
+
+	</div>
+	<div class="div19">
+		<div class="inputs">
+			<input type="number" id="real" name="Real Part" min="-5" max="5" placeholder="Real Part">
+			<input type="number" id="imaginary" name="Imaginary Part" min="-5" max="5" placeholder="Imaginary Part">
+	
+		</div>
+
+
+
+
+
+	</div>
+
+	</div>
+
+
+</body>
+
+<script src="../static/js/Front.js"></script>
+<script src="../static/js/Unitcircle.js"></script>
+<script src="../static/js/plotting.js"></script>
+<script src="../static/js/main.js"></script>
+<script src="../static/js/Allpass.js"></script>
+
+
+</html>
+

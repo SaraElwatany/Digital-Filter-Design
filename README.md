@@ -2,6 +2,7 @@
 
 # Abstract 
 The above repository was a collaborative university project, where the first page has various options like uploading signals from an external csv file or generating your own by moving the mouse across the blue space at the bottom of the first page. The first page also includes the "Digital Filter Design", where you are able to choose your position of poles or zeros on the unit circle & get your filter of choice, your filtered signal will be plotted simultaneously & dinamically with your original signal. As for the second page, it includes the phase correction for your filter, where you are able to choose the real and imaginary part, and you can add as many as you like, these values are then used to correct your previous filter from the first page, moreover you can see some standard phase correction values at the left side of the page alongside with their plots.
+
 ![2023-06-19 (8)](https://github.com/SaraElwatany/Digital-Filter-Design/assets/93448764/68264f07-b1a0-4a2d-b858-3f28176df385)
 
 ## Snapshots
@@ -42,4 +43,4 @@ The above repository was a collaborative university project, where the first pag
 
 ## How To Run
 - Clone The Repository
-- Run 
+- Run app.py
